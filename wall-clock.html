@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Realistic Wall Clock</title>
+  <style>
+    body {
+      background: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .clock {
+      width: 300px;
+      height: 300px;
+      background: white;
+      border: 10px solid #333;
+      border-radius: 50%;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      position: relative;
+    }
+
+    .center {
+      width: 12px;
+      height: 12px;
+      background: #333;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      z-index: 10;
+    }
+
+    .hand {
+      width: 50%;
+      height: 6px;
+      background: #333;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      transition: transform 0.05s ease-in-out;
+      border-radius: 4px;
+    }
+
+    .hour {
+      width: 35%;
+      height: 6px;
+      background: #000;
+      z-index: 3;
+    }
+
+    .minute {
+      width: 45%;
+      height: 4px;
+      background: #666;
+      z-index: 2;
+    }
+
+    .second {
+      width: 48%;
+      height: 2px;
+      background: red;
+      z-index: 1;
+    }
+
+    .number {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      font-size: 18px;
+      font-family: sans-serif;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .number span {
+      position: absolute;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+</head>
+<body>
+  <h2>Wall Clock </h2>
+  <div class="clock">
+    <div class="center"></div>
+    <div class="hand hour" id="hour"></div>
+    <div class="hand minute" id="minute"></div>
+    <div class="hand second" id="second"></div>
+    <div class="number">
+      <span style="top: 15px; left: 50%;">12</span>
+      <span style="top: 50%; left: 285px;">3</span>
+      <span style="top: 285px; left: 50%;">6</span>
+      <span style="top: 50%; left: 15px;">9</span>
+    </div>
+  </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const second = now.getSeconds();
+      const minute = now.getMinutes();
+      const hour = now.getHours();
+
+      const secondDeg = second * 6;
+      const minuteDeg = minute * 6 + second * 0.1;
+      const hourDeg = (hour % 12) * 30 + minute * 0.5;
+
+      document.getElementById("second").style.transform = `rotate(${secondDeg}deg)`;
+      document.getElementById("minute").style.transform = `rotate(${minuteDeg}deg)`;
+      document.getElementById("hour").style.transform = `rotate(${hourDeg}deg)`;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+</body>
+</html>
